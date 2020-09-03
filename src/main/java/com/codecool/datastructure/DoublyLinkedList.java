@@ -103,7 +103,6 @@ public class DoublyLinkedList {
         if (this.head == null) {
             this.head = newNode;
             this.tail = newNode;
-            return;
         }
         if (index == 0) {
             newNode.setNext(this.head);
@@ -142,12 +141,13 @@ public class DoublyLinkedList {
     // Deletes the element at 'index' from the array.
     //
     //  e.g. the result of deleting index 2 from [0, 1, 2, 3, 4] is [0, 1, 3, 4]
-    public void delete(int index) {
+    public void delete2(int index) {
         if (index == 0) {
             if (head == null) {
                 throw new IndexOutOfBoundsException();
             } else {
                 head = head.getNext();
+                head.getPrevious().setPrevious(null);
             }
             return;
         }
@@ -164,5 +164,51 @@ public class DoublyLinkedList {
             throw new IndexOutOfBoundsException();
         }
         elementBeforeIndex.setNext(elementAtIndex.getNext());
+    }
+
+    public void delete(int index) {
+        if (index == 0) {
+            if (head == null) {
+                throw new IndexOutOfBoundsException();
+            } else {
+                head = head.getNext();
+                head.getPrevious().setPrevious(null);
+            }
+            counter--;
+            return;
+        }
+
+        if (index == counter - 1) {
+            this.tail = this.tail.getPrevious();
+            this.tail = this.tail.setNext(null);
+        } else {
+            Link current = this.head;
+            for (int i = 0; i < index; i++) {
+//                System.out.println(i);
+                current = current.getNext();
+            }
+//            System.out.println("current = " + current.getValue());
+//            System.out.println("current.getNext().getValue() = " + current.getNext().getValue());
+//            System.out.println("current.getPrevious().getValue() = " + current.getPrevious().getValue());
+            current.getNext().setPrevious(current.getPrevious());
+            current.getPrevious().setNext(current.getNext());
+        }
+        counter--;
+
+
+        // ----------------------------
+//        Link elementBeforeIndex = head;
+//        while (index - 1 > 0) {
+//            elementBeforeIndex = elementBeforeIndex.getNext();
+//            index--;
+//            if (elementBeforeIndex == null) {
+//                throw new IndexOutOfBoundsException();
+//            }
+//        }
+//        Link elementAtIndex = elementBeforeIndex.getNext();
+//        if (elementAtIndex == null) {
+//            throw new IndexOutOfBoundsException();
+//        }
+//        elementBeforeIndex.setNext(elementAtIndex.getNext());
     }
 }
